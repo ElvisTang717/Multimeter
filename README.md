@@ -7,7 +7,7 @@ This is a digital multimeter. It has a DC measure mode and an AC measure mode. I
 * [Accomplishments](#accomplishments)
 * [System Specification](#system-specification)
 * [Schematic](#schematic)
-* [How the code works?](https://github.com/ElvisTang123/Multimeter/blob/main/Program%20Files/README.md)
+* [How the code works?](https://github.com/ElvisTang123/Multimeter/blob/main/Program%20Files/SoftwareArchitecture.md)
 
 # Accomplishments
 * Created the multimeter’s AC/DC interface on Realterm through USART, USART’s interrupts.
