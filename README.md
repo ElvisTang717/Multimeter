@@ -28,7 +28,7 @@ It can be seen from the below specifications of the LCD module that the size of 
 
 # Schematic
 <p align="center">
-  <img src="Media/Schematic.jpg" alt="" width="70%"/>
+  <img src="Media/Schematic1.jpg" alt="" width="70%"/>
 </p>
 
 # Software Architecture
