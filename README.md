@@ -33,5 +33,5 @@ This is a digital multimeter. It has a DC measure mode and an AC measure mode. I
 
 # Schematic
 <p align="center">
-  <img src="Media/Schematic.jpg" alt="" width="80%"/>
+  <img src="Media/Schematic.jpg" alt="" width="90%"/>
 </p>
