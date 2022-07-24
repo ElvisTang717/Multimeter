@@ -11,7 +11,6 @@
 This is a digital multimeter. It has a DC measure mode and an AC measure mode. It can handle inputs between 0 and 3 volts.  It is capable of reading waves with frequency from 1-1000 Hz. It can read sin, saw-tooth, square, and triangle waves. In DC mode, it reads the voltage level and outputs the corresponding voltage to the terminal. In AC mode it reads the frequency, peak to peak voltage, RMS voltage. When outputting to the terminal the device both displays the values numerically and it displays the values on a series of bar graphs.<br />
 
 # System Specification
-It can be seen from the below specifications of the LCD module that the size of the LCD monitor we used for the lockbox is sufficient, and the color contrast is very good. It can not only display the instructions clearly but also have enough space to key in the pins. The power requirement is 3.3V, which is basically very low, so we can use a very small power supply to drive the LCD. <br />
 
 | Parameter | Value | Unit |
 | :-----------:  | :-----------: |:-----------: |
