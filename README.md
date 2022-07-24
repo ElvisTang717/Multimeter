@@ -32,70 +32,15 @@ It can be seen from the below specifications of the LCD module that the size of 
 </p>
 
 # Software Architecture
-## Calculations - Interrupt Period & Max Resolution:<br />
+* Main Function:<br/>
+Our main function has three cases, a default where the user picks between AC and DC voltage, then the AC measure and the DC measure. It chooses between them using a USART interrupt based on a key press from the user. In dc mode it measures and calculates the DC voltage (discussed later) then prints the result to the terminal. When printing to the terminal it prints DC then makes a bar graph by printing “0v” on colunm 0, “1v” on column 20, “2v” on column 40, and “3v” on column 60, on the next row it prints 60 columns of dashes. Finally, it converter the voltage to a corresponding number of columns out of 60 (3v =60 columns) and prints that many columns worth of “x” on the next row. The printing for all the bar graphs work in exactly this way. Once we print the values and everything we loop back to the beginning of the DC measurement procedure.<br/><br/>
+In AC mode we first calculate the frequency. To do this we measure the wave form as many times as possible in .25 seconds (we want to measure at least a quarter of the wave when the wave is at its slowest). Using the max and min values (we find in real time) from that we calculate the middle value and write the DAC to output that value. The comparator then compares the wave and that DAC value to produce a square wave with frequency equal to the input wave form. Next, we initialize timer 2 to capture rising edges of that wave form and set up its interrupt to get two consecutive rising edges. From those edges we are able to calculate the frequency. We use USART to print the frequency to the terminal. Next, we use that frequency to calculate what frequency we want to use timer 5 to measure the wave. The idea is to get 1000 points on the wave regardless of the wave’s frequency. Then we use those 1000 points to calculate Vpp and Vrms. Finally, we print those values and their bar graphs to the terminal and loop back through.<br/>
 
-```
-ISR_exe = 2.115us (68 clock cycle)
-ISR_Start = 0.75us (92-68 = 24 clock cycle)
-ISR_Total = 2.865us
-
-Points \ Waveform = (10ms*100khz) \ 2.865us
-                  = 1960 points
-To make the amount of points can be divided by 3,4,5 
-                  => 1800 points
-                  
-ISR_Total = 10ms / 1800 points = 5.555us
-Clock Cycle = 5.55us * 32 Mhz
-            = 177.778 clock cycle
-            = 178 (CCR1)
-```
-
-| ISR Execute Time(ISR_exe) | 2.115us|
-| :-----------:  | :-----------: |
-| ISR Start Time(ISR_start)| 0.75us |
-| ISR Total Time(ISR_tol) |2.865us|
-| Maximum Resolution | 1960 samples/ 100Hz_wave |
-|Ideal Resolution (Can be divided by 3, 4, and 5)| 1800 samples/ 100Hz_wave |
-| Ideal ISR Total Time| 5.555us |
-| Ideal Clock Cycle |178 clock cycle|
-
-
-## Flowchart:<br />
-* While Loop:<br />
-The structure of the while loop in the main function is made up of three if statements, the three if statements are used to detect which key has been pressed on the keypad. Based on the key being pressed, the function will adjust the global tags of the waveform, frequency, and duty cycles. Through adjusting these tags, the function, TIM2_IRQHandler(), can tell which look-up table it should take the data from and also what frequency and duty cycle should be set.<br />
 <p align="center">
-  <img src="Media/WhileLoop.jpg" alt="" width="70%"/>
+  <img src="Media/Main.jpg" alt="" width="50%"/>
 </p>
 
-* Lookup Table:<br />
-  * Sin Wave:<br />
-We used the built-in sine function in the C programming and scale the range of the sine wave within 0V ~ 3V by the function shown in figure below.<br />
-<p align="center">
-  <img src="Media/SinWave.jpg" alt="" width="70%"/>
-</p>
+* ADC_IRQ_Handler:<br/>
 
-  * Triangle Wave:<br />
-We split the triangle wave in half, the half before the peak of the wave and the half after that. And generate the data with the function shown in figure below.<br />
-<p align="center">
-  <img src="Media/TriangleWave.jpg" alt="" width="70%"/>
-</p>
-
-  * Sawtooth Wave:<br />
-The function for the sawtooth wave is the same as the function of the first half of the triangle wave. The only thing we need to change is the slope of the function.<br />
-<p align="center">
-  <img src="Media/SawtoothWave.jpg" alt="" width="70%"/>
-</p>
-
-  * Square Wave:<br />
-Because we have to adjust the duty cycle of the square wave, we use two for loops to generate a 9 X samples matrix to store all different duty cycle data.<br />
-<p align="center">
-  <img src="Media/SquareWave.jpg" alt="" width="70%"/>
-</p>
-
-* TIM2_IRQHandler():<br />
-Through this function, there will be an interrupt being generated every 178 clock cycles. While this interrupt is generated we will output a single data through the lookup table we generated previously. The function will decide which lookup table to use based on the global tag we have set by the while loop in the main function. The flowchart is shown in figure below.<br />
-<p align="center">
-  <img src="Media/Interrupt.jpg" alt="" width="70%"/>
-</p>
 
 # Demonstration
