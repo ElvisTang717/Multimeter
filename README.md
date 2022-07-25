@@ -24,7 +24,7 @@ This is a digital multimeter. It has a DC measure mode and an AC measure mode. I
 | Input type |DC or most types of AC|---|
 | Input frequency | 0 or 1-1000 |Hz|
 | Freq_out error | +-max(5, 1% of freq) |Hz|
-| Voltage our error| +- .25 |V|
+| Voltage_out error| +- .25 |V|
 | Data points used to read |1000|Points/period|
 | Current input necessary | 300 |mA|
 | Power source | USB |---|
